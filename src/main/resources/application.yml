@@ -1,8 +1,13 @@
 ##Possition of satellite in space
 satellite:
-  kenoby-x: -500
-  kenoby-y: -200
-  skywalker-x: 100
-  skywalker-y: -100
-  sato-x: 500
-  sato: 100
+  names:
+    kenoby: kenoby
+    skywalker: skywalker
+    sato: sato
+  positions:
+    kenoby-x: -500
+    kenoby-y: -200
+    skywalker-x: 100
+    skywalker-y: -100
+    sato-x: 500
+    sato-y: 100
