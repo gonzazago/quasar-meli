@@ -11,7 +11,7 @@ public class Satellite {
 
     private double distance;
     private String name;
-    private List<String> messages;
+    private String[] messages;
     private Position position;
 
 }

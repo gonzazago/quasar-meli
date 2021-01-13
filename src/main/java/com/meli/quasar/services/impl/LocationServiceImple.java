@@ -18,33 +18,15 @@ import static com.meli.quasar.constants.StringContstants.*;
 @Slf4j
 public class LocationServiceImple implements LocationService {
 
-    @Autowired
-    @Qualifier(SATELLITE_KENOBY)
-    private Satellite kenoby;
-    @Autowired
-    @Qualifier(SATELLITE_SKYWALKER)
-    private Satellite skywalker;
-
-    @Autowired
-    @Qualifier(SATELLITE_SATO)
-    private Satellite sato;
 
     @Override
-    public Position getLocation(List<Double> distances) {
+    public Position getLocation(double[][] positions, List<Double> distances) {
         log.info("## Init get Location## ");
-
         if (distances.size() < 3) {
             throw new LocationException("The number of positions you provided does not match the number of distances");
         }
-
         log.info("Distances provided: {}", distances.size());
         double[] distancesArray = distances.parallelStream().mapToDouble(Double::doubleValue).toArray();
-        double[][] positions = new double[][]{
-                {kenoby.getPosition().getPositionX(), kenoby.getPosition().getPositionY()},
-                {skywalker.getPosition().getPositionX(), skywalker.getPosition().getPositionY()},
-                {sato.getPosition().getPositionX(), sato.getPosition().getPositionY()}
-        };
-
         try {
             log.info("## Invoking calcPosition ###");
             double[] positionArray = CalcUtils.calcPositition(positions, distancesArray);

@@ -6,10 +6,13 @@ import com.meli.quasar.dtos.TopSecretRequestDTO;
 import com.meli.quasar.dtos.TopSecretResponseDTO;
 import com.meli.quasar.entities.Position;
 import com.meli.quasar.entities.Satellite;
+import com.meli.quasar.services.ComunicationService;
 import com.meli.quasar.services.LocationService;
+import com.meli.quasar.services.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -27,7 +30,7 @@ public class ComunicationHandler {
 
 
     @Autowired
-    private LocationService service;
+    private ComunicationService comunicationService;
 
 
     public Mono<ServerResponse> getLocation(ServerRequest request) {
@@ -35,26 +38,23 @@ public class ComunicationHandler {
 
 
         return requestDTO
-//                .doOnError(t -> t.printStackTrace())
                 .flatMap(tSecret -> {
                     if (tSecret.getSatelliteDTOS().size() < 2) {
                         log.error("Need at least two satellite but  passed: {} satellites. ", tSecret.getSatelliteDTOS().size());
                         return ServerResponse.notFound().build();
                     }
+                    try {
+                        TopSecretResponseDTO response = comunicationService.proccessMessage(tSecret.getSatelliteDTOS());
+                        return ServerResponse.ok()
+                                .body(
+                                        BodyInserters.fromValue(response))
+                                .switchIfEmpty(ServerResponse.notFound().build());
+                    } catch (Exception e) {
+                        return ServerResponse.
+                                status(HttpStatus.NOT_FOUND)
+                                .build();
+                    }
 
-                    List<Double> distances = tSecret.getSatelliteDTOS()
-                            .parallelStream()
-                            .map(SatelliteDTO::getDistance)
-                            .collect(Collectors.toList());
-
-
-                    TopSecretResponseDTO response = TopSecretResponseDTO.builder()
-                            .position(service.getLocation(distances))
-                            .build();
-                    return ServerResponse.ok()
-                            .body(
-                                    BodyInserters.fromValue(response))
-                            .switchIfEmpty(ServerResponse.notFound().build());
                 });
 
 
