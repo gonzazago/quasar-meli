@@ -54,8 +54,8 @@ public class SatelliteConfig {
     @Qualifier(SATELLITE_SKYWALKER)
     public Satellite getSkywalker() {
         return Satellite.builder()
-                .name(kenobyName)
-                .position(new Position(Double.parseDouble(kenobyPositionX), Double.parseDouble(kenobyPositionY)))
+                .name(skywalkerName)
+                .position(new Position(Double.parseDouble(skywalkerPositionX), Double.parseDouble(skywalkerPositionY)))
                 .build();
     }
 
@@ -63,8 +63,8 @@ public class SatelliteConfig {
     @Qualifier(SATELLITE_SATO)
     public Satellite getSato() {
         return Satellite.builder()
-                .name(kenobyName)
-                .position(new Position(Double.parseDouble(kenobyPositionX), Double.parseDouble(kenobyPositionY)))
+                .name(satoName)
+                .position(new Position(Double.parseDouble(satoPositionX), Double.parseDouble(satoPositionY)))
                 .build();
     }
 }

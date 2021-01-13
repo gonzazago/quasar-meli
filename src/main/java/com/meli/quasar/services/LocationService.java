@@ -1,6 +1,10 @@
 package com.meli.quasar.services;
 
+import com.meli.quasar.entities.Position;
+
+import java.util.List;
+
 public interface LocationService {
 
-    double[] getLocation(double... distances);
+    Position getLocation(List<Double> distances);
 }
