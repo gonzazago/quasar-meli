@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -51,6 +52,7 @@ public class CommunicationServiceImple implements ComunicationService {
     @Qualifier(SATELLITES_LIST)
     private List<Satellite> satellites;
 
+    @Autowired
     SatelliteMapper mapper;
     private double[][] positions;
 
@@ -61,7 +63,6 @@ public class CommunicationServiceImple implements ComunicationService {
                 {skywalker.getPosition().getPositionX(), skywalker.getPosition().getPositionY()},
                 {sato.getPosition().getPositionX(), sato.getPosition().getPositionY()}
         };
-        mapper = Mappers.getMapper(SatelliteMapper.class);
     }
 
     @Override
