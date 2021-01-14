@@ -10,4 +10,10 @@ public interface ComunicationService {
 
 
      TopSecretResponseDTO proccessMessage(List<SatelliteDTO> satelliteDTOList);
+
+     void updateSatellite(String name,SatelliteDTO request);
+
+     List<SatelliteDTO> findAll();
+
+
 }

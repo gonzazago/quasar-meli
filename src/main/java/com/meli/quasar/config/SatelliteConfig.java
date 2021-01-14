@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+import java.util.Map;
+
 import static com.meli.quasar.constants.StringContstants.*;
 
 @Configuration
@@ -41,7 +44,7 @@ public class SatelliteConfig {
 
 
     @Bean
-    @Qualifier(SATELLITE_KENOBY)
+    @Qualifier(KENOBI)
     public Satellite getKenobi() {
         return Satellite.builder()
                 .name(kenobyName)
@@ -66,5 +69,18 @@ public class SatelliteConfig {
                 .name(satoName)
                 .position(new Position(Double.parseDouble(satoPositionX), Double.parseDouble(satoPositionY)))
                 .build();
+    }
+
+
+    @Bean
+    @Qualifier(SATELLITES_MAP)
+    public Map<String, Satellite> getSatellites() {
+        return Map.of(KENOBI, getKenobi(), SATELLITE_SATO, getSato(), SATELLITE_SKYWALKER, getSkywalker());
+    }
+
+    @Bean
+    @Qualifier(SATELLITES_LIST)
+    public List<Satellite> getSatellitesList() {
+        return List.of( getKenobi(), getSato(), getSkywalker());
     }
 }

@@ -19,7 +19,7 @@ public class MessageServiceImpl implements MessageService {
 
         satellites.forEach(satellite -> {
             if (satellite.getMessage() == null) {
-                throw new IllegalArgumentException("El satelite " + satellite.getName() + " no posee información (Arreglo del mensaje) para leer/armar el mensaje final.");
+                throw new IllegalArgumentException("The satellite " + satellite.getName() + " not provide information  for read for make the message.");
             }
             messages[index.getAndIncrement()] = satellite.getMessage();
         });
