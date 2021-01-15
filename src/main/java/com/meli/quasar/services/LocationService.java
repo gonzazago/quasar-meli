@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface LocationService {
 
-    Position getLocation(double[][] positions,List<Double> distances);
+    Position getLocation(List<Double> distances);
 }

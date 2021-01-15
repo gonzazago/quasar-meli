@@ -13,6 +13,8 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 import static com.meli.quasar.constants.StringContstants.PATH_VARIABLE_NAME;
 
 @Component
@@ -66,6 +68,7 @@ public class ComunicationHandler {
 
     public Mono<ServerResponse> proccessMessage(ServerRequest request) {
         try {
+            List<SatelliteDTO> dtos = comunicationService.findAll();
             TopSecretResponseDTO responseDTO = comunicationService.proccessMessage(comunicationService.findAll());
             return ServerResponse.ok().body(BodyInserters.fromValue(responseDTO));
         } catch (Exception e) {

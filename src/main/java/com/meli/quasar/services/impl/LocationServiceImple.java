@@ -2,6 +2,7 @@ package com.meli.quasar.services.impl;
 
 import com.meli.quasar.entities.Position;
 import com.meli.quasar.entities.Satellite;
+import com.meli.quasar.enums.SatelliteEnum;
 import com.meli.quasar.exceptions.LocationException;
 import com.meli.quasar.services.LocationService;
 import com.meli.quasar.utils.CalcUtils;
@@ -10,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static com.meli.quasar.constants.StringContstants.*;
 
@@ -20,7 +24,7 @@ public class LocationServiceImple implements LocationService {
 
 
     @Override
-    public Position getLocation(double[][] positions, List<Double> distances) {
+    public Position getLocation(List<Double> distances) {
         log.info("## Init get Location## ");
         if (distances.size() < 3) {
             throw new LocationException("The number of positions you provided does not match the number of distances");
@@ -29,7 +33,7 @@ public class LocationServiceImple implements LocationService {
         double[] distancesArray = distances.parallelStream().mapToDouble(Double::doubleValue).toArray();
         try {
             log.info("## Invoking calcPosition ###");
-            double[] positionArray = CalcUtils.calcPositition(positions, distancesArray);
+            double[] positionArray = CalcUtils.calcPositition(getPositions(), distancesArray);
 
             return Position.builder()
                     .positionX(positionArray[0])
@@ -39,5 +43,40 @@ public class LocationServiceImple implements LocationService {
             log.error("Error in getLocation", e);
             throw new LocationException("Error trying calc position");
         }
+    }
+
+    private double[][] getPositions() {
+        List<Satellite> satellites = new ArrayList<>();
+        List<String> listPosition = new ArrayList<>();
+        Arrays.asList(SatelliteEnum.values())
+                .forEach(s ->
+                        satellites.add(Satellite
+                                .builder()
+                                .name(s.getName())
+                                .position(s.getPosition())
+                                .build())
+                );
+        satellites.forEach(e ->
+                listPosition.add(
+                        String.valueOf(e.getPosition().getPositionX())
+                                .concat(",")
+                                .concat(String.valueOf(e.getPosition().getPositionY()))
+                )
+        );
+        double[][] positions = new double[listPosition.size()][];
+        int index = 0;
+        for (String s : listPosition) {
+            String[] point = s.split(",");
+            positions[index] = Arrays.stream(point)
+                    .map(Double::valueOf)
+                    .mapToDouble(Double::doubleValue)
+                    .toArray();
+            index++;
+        }
+
+
+        return positions;
+
+
     }
 }
