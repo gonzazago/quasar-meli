@@ -11,5 +11,11 @@ satellite:
     skywalker-y: -100
     sato-x: 500
     sato-y: 100
-
+springdoc:
+  use-management-port: true
+  show-actuator: true
+management:
+  endpoints:
+    web:
+      exposure: openapi, swaggerui
 

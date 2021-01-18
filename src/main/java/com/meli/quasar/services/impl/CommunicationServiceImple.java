@@ -7,6 +7,7 @@ import com.meli.quasar.entities.Satellite;
 import com.meli.quasar.enums.SatelliteEnum;
 import com.meli.quasar.exceptions.ComunicationException;
 import com.meli.quasar.mappers.SatelliteMapper;
+import com.meli.quasar.repository.SatelliteRepository;
 import com.meli.quasar.services.ComunicationService;
 import com.meli.quasar.services.LocationService;
 import com.meli.quasar.services.MessageService;
@@ -28,7 +29,6 @@ public class CommunicationServiceImple implements ComunicationService {
     @Autowired
     private MessageService messageService;
 
-
     private Map<String, Satellite> satelliteMap;
 
 
@@ -44,7 +44,7 @@ public class CommunicationServiceImple implements ComunicationService {
                         satelliteMap.put(s.getName(), Satellite
                                 .builder()
                                 .name(s.getName())
-                                .position(s.getPosition())
+                                .position(locationService.findPositionByName(s.getName()))
                                 .build())
                 );
 

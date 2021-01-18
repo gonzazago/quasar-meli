@@ -7,4 +7,5 @@ import java.util.List;
 public interface LocationService {
 
     Position getLocation(List<Double> distances);
+    Position findPositionByName(String name);
 }

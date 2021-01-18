@@ -1,6 +1,7 @@
 package com.meli.quasar.unit.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.meli.quasar.constants.StringContstants;
 import com.meli.quasar.dtos.SatelliteDTO;
 import com.meli.quasar.dtos.TopSecretResponseDTO;
 import com.meli.quasar.entities.Position;
@@ -55,6 +56,9 @@ public class ComunicationServiceTest {
     public void init() throws JsonProcessingException {
         satellitesMock = getSatellites();
         satellitesWithOutPositions = getSatellitesWithOutMessageOrPosition();
+        when(locationService.findPositionByName(StringContstants.SATELLITE_KENOBI)).thenReturn(new Position(-500.00, -200.00));
+        when(locationService.findPositionByName(StringContstants.SATELLITE_SKYWALKER)).thenReturn(new Position(100.00, -100.00));
+        when(locationService.findPositionByName(StringContstants.SATELLITE_SATO)).thenReturn(new Position(500.00, 100.00));
     }
 
     @Test
@@ -64,6 +68,7 @@ public class ComunicationServiceTest {
                 .positionX(-59.42262429243444)
                 .positionY(-69.9519130926232).build();
         when(locationService.getLocation(getDistances(satellitesMock))).thenReturn(positionExpected);
+
         when(messageService.getMessage(satellitesMock)).thenReturn(messageExpected);
         TopSecretResponseDTO response = service.proccessMessage(satellitesMock);
 

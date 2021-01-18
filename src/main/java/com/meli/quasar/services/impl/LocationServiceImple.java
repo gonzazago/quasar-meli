@@ -4,24 +4,23 @@ import com.meli.quasar.entities.Position;
 import com.meli.quasar.entities.Satellite;
 import com.meli.quasar.enums.SatelliteEnum;
 import com.meli.quasar.exceptions.LocationException;
+import com.meli.quasar.repository.SatelliteRepository;
 import com.meli.quasar.services.LocationService;
 import com.meli.quasar.utils.CalcUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
-import static com.meli.quasar.constants.StringContstants.*;
 
 @Service
 @Slf4j
 public class LocationServiceImple implements LocationService {
 
+    @Autowired
+    private SatelliteRepository repository;
 
     @Override
     public Position getLocation(List<Double> distances) {
@@ -45,6 +44,11 @@ public class LocationServiceImple implements LocationService {
         }
     }
 
+    @Override
+    public Position findPositionByName(String name) {
+        return repository.findPositionByName(name);
+    }
+
     private double[][] getPositions() {
         List<Satellite> satellites = new ArrayList<>();
         List<String> listPosition = new ArrayList<>();
@@ -53,7 +57,7 @@ public class LocationServiceImple implements LocationService {
                         satellites.add(Satellite
                                 .builder()
                                 .name(s.getName())
-                                .position(s.getPosition())
+                                .position(repository.findPositionByName(s.getName()))
                                 .build())
                 );
         satellites.forEach(e ->

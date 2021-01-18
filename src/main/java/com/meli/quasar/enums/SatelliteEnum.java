@@ -1,28 +1,27 @@
 package com.meli.quasar.enums;
 
-import com.meli.quasar.constants.StringContstants;
+
 import com.meli.quasar.entities.Position;
+
+import static com.meli.quasar.constants.StringContstants.*;
 
 public enum SatelliteEnum {
 
-    KENOBI(StringContstants.SATELLITE_KENOBI, new Position(-500.0, -200.0)),
-    SKYWALKER(StringContstants.SATELLITE_SKYWALKER, new Position(100.0, -100.0)),
-    SATO(StringContstants.SATELLITE_SATO, new Position(500.0, 100.0));
+
+    KENOBI(SATELLITE_KENOBI),
+    SKYWALKER(SATELLITE_SKYWALKER),
+    SATO(SATELLITE_SATO);
 
     private String name;
-    private Position position;
-    private Integer order;
 
-    SatelliteEnum(String name, Position position) {
+
+    SatelliteEnum(String name) {
         this.name = name;
-        this.position = position;
     }
 
     public String getName() {
         return name;
     }
 
-    public Position getPosition() {
-        return position;
-    }
+
 }
