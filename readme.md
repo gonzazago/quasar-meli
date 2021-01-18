@@ -21,7 +21,10 @@ _com.lemmingapex.trilateration_
 Hosting de la App
 La misma se encuentra hosteada en Heroku
 Endpoints:
- Obtener Mensaje y Localizacion:`https://operation-quasar.herokuapp.com/api/v1/topsecret_split`
+ Obtener Mensaje y Localizacion:
+ URL:`https://operation-quasar.herokuapp.com/api/v1/topsecret_split`
+ Metodo: GET
+ 
  Actualizar satelite:`https://operation-quasar.herokuapp.com/api/v1/topsecret_split/{satellite_name}`
  Request Ej:
  Metodo Post: 
@@ -34,6 +37,7 @@ Endpoints:
     }`
     
 Obtener Mensaje:`https://operation-quasar.herokuapp.com/api/v1/topsecret`
+Metodo Post
 Body:
 
 `{ "satellites":
@@ -54,6 +58,13 @@ Body:
      }`
 
  
+ Requisitos de la App:
+ JDK: Java 11
+ Instalacion
+ 1)Clonar el proyecto
+ 2)Ejecutar mvn clean install
+ 3) Ejecutar java -jar quasar-0.0.1-SNAPSHOT.jar. 
+ Se levantar por default en el puerto 8080
  
  
 
